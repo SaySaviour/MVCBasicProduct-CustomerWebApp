@@ -1,0 +1,162 @@
+﻿@model ProductListViewModel
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+
+<h2>Product List</h2>
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#Modal1"> Yeni Ürün Ekle</button>
+<div class="modal" id="Modal1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Ürün Ekle</h2>
+            </div>
+            <form asp-controller="Product" asp-action="NewProduct">
+                <div class="modal-body">
+                    <label>Kategori ID</label>
+                    <br />
+                    <input asp-for="Product.CategoryId" />
+                    <br />
+                    <label>Ürün Adı</label>
+                    <br />
+                    <input asp-for="Product.ProductName" />
+                    <br />
+                    <label>Birim Başına Miktar</label>
+                    <br />
+                    <input asp-for="Product.QuantityPerUnit" />
+                    <br />
+                    <label>Birim Fiyatı</label>
+                    <br />
+                    <input asp-for="Product.UnitPrice" />
+                    <br />
+                    <label>Stoktaki Ürün Miktarı</label>
+                    <br />
+                    <input asp-for="Product.UnitsInStock" />
+                    <br /><br />
+                    <button id="btnaddprod" class="btn btn-success">Ürünü Kaydet</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#Modal2">Ürün Sil</button>
+<div class="modal" id="Modal2">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Ürün Sil</h2>
+            </div>
+            <form asp-controller="Product" asp-action="RemoveProduct">
+                <div class="modal-body">
+                    <label>Ürün ID</label>
+                    <br />
+                    <input id="urunId" asp-for="Product.ProductId" />
+                    <br /><br />
+                    <button id="btnrmvprod" class="btn btn-outline-danger">Ürünü Sil</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<button type="button" class="btn btn-success" data-toggle="modal" data-target="#Modal3">Ürün Güncelle</button>
+<div class="modal" id="Modal3">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Ürün Güncelle</h2>
+            </div>
+            <form asp-controller="Product" asp-action="UpdateProduct">
+                <div class="modal-body">
+                    <label>Ürün ID</label>
+                    <br />
+                    <input id="prodID" asp-for="Product.ProductId" />
+                    <br />
+                    <label>Ürün Adı</label>
+                    <br />
+                    <input id="prodName" asp-for="Product.ProductName" />
+                    <br />
+                    <label>Birim Başına Miktar</label>
+                    <br />
+                    <input id="quantiPer" asp-for="Product.QuantityPerUnit" />
+                    <br />
+                    <label>Birim Fiyatı</label>
+                    <br />
+                    <input id="unitPrice" asp-for="Product.UnitPrice" />
+                    <br />
+                    <label>Stoktaki Ürün Miktarı</label>
+                    <br />
+                    <input id="unitInStock" asp-for="Product.UnitsInStock" />
+                    <br /><br />
+                    <button id="btnupdate" class="btn btn-success">Ürünü Güncelle</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<br />
+<table class="table table-responsive">
+    @foreach(var product in Model.Products)
+    {
+        <tr>
+            <td>@product.ProductId</td>
+            <td>@product.ProductName</td>
+            <td>@product.QuantityPerUnit</td>
+            <td>@product.UnitPrice</td>
+            <td>@product.UnitsInStock</td>
+        </tr>
+    }
+</table>
+@section Scripts{
+    <script>
+        $("#btnaddprod").click(function(){
+            let product={
+                    CategoryId:$("#catId").val(),
+                    ProductName: $("#prodName").val(),
+                    QuantityPerUnit:$("#quantiPer").val(),
+                    UnitPrice:$("#unitPrice").val(),
+                    UnitsInStock:$("#unitInStock").val()
+            };
+            $.ajax({
+                type:"POST",
+                url:"/Product/NewProduct/",
+                data:product,
+                success:function(func){
+                    let result=jQuery.parseJSON(func);
+                    alert("Ürün Ekleme İşlemi Başarı İle Gerçekleşti.");
+                }
+
+            });
+        });
+
+        $("#btnrmvprod").click(x=>{
+            let productId = $("#urunId").val();
+            $.ajax({
+                url:"/Product/RemoveProduct/" + productId,
+                type:"POST",
+                datatype:"json",
+                success: function (func) {
+                    alert("Ürün Silme İşlemi Başarı İle Gerçekleşti.");
+                }
+            });
+        });
+
+        $("#btnupdate").click(function(){
+            let product={
+                ProductId: $("#prodID").val(),
+                ProductName: $("#prodName").val(),
+                QuantityPerUnit: $("#quantiPer").val(),
+                UnitPrice: $("#unitPrice").val(),
+                UnitsInStock: $("#unitInStock").val()
+            };
+            $.ajax({
+                type:"POST",
+                url:"/Product/UpdateProduct/",
+                data:product,
+                success:function(func){
+                    alert("Güncelleme Yapıldı");
+                }
+            });
+        });
+    </script>
+}
