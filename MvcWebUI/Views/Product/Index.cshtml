@@ -12,27 +12,27 @@
             <div class="modal-header">
                 <h2 class="modal-title">Ürün Ekle</h2>
             </div>
-            <form asp-controller="Product" asp-action="NewProduct">
+            <form asp-controller="Product">
                 <div class="modal-body">
                     <label>Kategori ID</label>
                     <br />
-                    <input asp-for="Product.CategoryId" />
+                    <input id="catId" asp-for="Product.CategoryId" />
                     <br />
                     <label>Ürün Adı</label>
                     <br />
-                    <input asp-for="Product.ProductName" />
+                    <input id="prodName" asp-for="Product.ProductName" />
                     <br />
                     <label>Birim Başına Miktar</label>
                     <br />
-                    <input asp-for="Product.QuantityPerUnit" />
+                    <input id="quantiPer" asp-for="Product.QuantityPerUnit" />
                     <br />
                     <label>Birim Fiyatı</label>
                     <br />
-                    <input asp-for="Product.UnitPrice" />
+                    <input id="unitPrice" asp-for="Product.UnitPrice" />
                     <br />
                     <label>Stoktaki Ürün Miktarı</label>
                     <br />
-                    <input asp-for="Product.UnitsInStock" />
+                    <input id="unitInStock" asp-for="Product.UnitsInStock" />
                     <br /><br />
                     <button id="btnaddprod" class="btn btn-success">Ürünü Kaydet</button>
                 </div>
@@ -47,7 +47,7 @@
             <div class="modal-header">
                 <h2 class="modal-title">Ürün Sil</h2>
             </div>
-            <form asp-controller="Product" asp-action="RemoveProduct">
+            <form asp-controller="Product">
                 <div class="modal-body">
                     <label>Ürün ID</label>
                     <br />
@@ -66,7 +66,7 @@
             <div class="modal-header">
                 <h2 class="modal-title">Ürün Güncelle</h2>
             </div>
-            <form asp-controller="Product" asp-action="UpdateProduct">
+            <form asp-controller="Product">
                 <div class="modal-body">
                     <label>Ürün ID</label>
                     <br />
