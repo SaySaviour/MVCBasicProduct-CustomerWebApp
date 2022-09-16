@@ -44,6 +44,7 @@ namespace Business.Concrate
 
         public void Update(Product product)
         {
+            
             _productDal.Update(product);
         }
     }
